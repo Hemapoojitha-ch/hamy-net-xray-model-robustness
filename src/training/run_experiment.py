@@ -23,8 +23,8 @@ LR = 1e-4
 # DATASET 
 import pandas as pd
 
-train_df = pd.read_csv("data/train.csv")
-val_df = pd.read_csv("data/val.csv")
+train_df = pd.read_csv("data/files/train_split.csv")
+val_df = pd.read_csv("data//files/train_val.csv")
 
 IMG_DIR = "data/images"
 
