@@ -80,8 +80,8 @@ def organize_images_by_split(df, split_name):
             print(f"Warning: Image not found at {src_path}")
 
 # Uncomment to organize images (may take time for large datasets)
-# print("\nOrganizing images by split...")
-# organize_images_by_split(train_df, 'train')
-# organize_images_by_split(test_df, 'test')
-# organize_images_by_split(val_df, 'val')
-# print("✓ Images organized in data/images_train/, data/images_test/, data/images_val/")
+ print("\nOrganizing images by split...")
+ organize_images_by_split(train_df, 'train')
+ organize_images_by_split(test_df, 'test')
+ organize_images_by_split(val_df, 'val')
+ print("✓ Images organized in data/images_train/, data/images_test/, data/images_val/")
