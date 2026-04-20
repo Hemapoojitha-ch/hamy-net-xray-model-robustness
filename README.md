@@ -36,3 +36,15 @@ The processed clinical features are stored in `../data/mimic_ed_cxr_pneumonia_mu
 
 **4. Image Data Structure**
 Images are stored locally in `../data/files/p[prefix]/p[subject_id]/s[study_id]/[dicom_id].jpg`
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+# X-ray Model Robustness
+
+## Setup
+```bash
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
