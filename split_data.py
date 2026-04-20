@@ -29,6 +29,11 @@ test_df, val_df = train_test_split(
     stratify=temp_df['Pneumonia']
 )
 
+# Add split column to identify which set each sample belongs to
+train_df['split'] = 'train'
+test_df['split'] = 'test'
+val_df['split'] = 'val'
+
 print("Dataset Split Summary:")
 print(f"Total samples: {len(df)}")
 print(f"Train set: {len(train_df)} ({len(train_df)/len(df)*100:.1f}%)")
@@ -80,8 +85,8 @@ def organize_images_by_split(df, split_name):
             print(f"Warning: Image not found at {src_path}")
 
 # Uncomment to organize images (may take time for large datasets)
- print("\nOrganizing images by split...")
- organize_images_by_split(train_df, 'train')
- organize_images_by_split(test_df, 'test')
- organize_images_by_split(val_df, 'val')
- print("✓ Images organized in data/images_train/, data/images_test/, data/images_val/")
+# print("\nOrganizing images by split...")
+# organize_images_by_split(train_df, 'train')
+# organize_images_by_split(test_df, 'test')
+# organize_images_by_split(val_df, 'val')
+# print("✓ Images organized in data/images_train/, data/images_test/, data/images_val/")
