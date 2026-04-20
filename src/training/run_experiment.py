@@ -25,7 +25,7 @@ train_df = pd.read_csv("data/train_split.csv")
 val_df = pd.read_csv("data/val_split.csv")
 test_df = pd.read_csv("data/test_split.csv")
 
-IMG_DIR = "data/files"  # ✅ Corrected path
+IMG_DIR = "data/files"  
 
 print(f"Train samples: {len(train_df)}")
 print(f"Val samples: {len(val_df)}")
