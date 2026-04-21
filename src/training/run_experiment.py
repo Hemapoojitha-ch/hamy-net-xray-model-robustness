@@ -31,7 +31,7 @@ train_df = pd.read_csv("data/train_split.csv")
 val_df = pd.read_csv("data/val_split.csv")
 test_df = pd.read_csv("data/test_split.csv")
 
-# ✅ Use normalized images
+# Use normalized images
 IMG_DIR = "data/images_normalized"
 
 print(f"\nDataset sizes:")
@@ -53,7 +53,7 @@ test_loader = DataLoader(test_dataset, batch_size=BATCH_SIZE, shuffle=False, num
 # ===== MODEL & OPTIMIZER =====
 model = DenseNet121Binary(weights='DEFAULT').to(DEVICE)
 
-# ✅ Class weights for imbalanced data
+# Class weights for imbalanced data
 num_positive = train_df['Pneumonia'].sum()
 num_negative = len(train_df) - num_positive
 pos_weight = torch.tensor([num_negative / num_positive]).to(DEVICE)
@@ -64,7 +64,7 @@ criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
 
 optimizer = optim.AdamW(model.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
 
-# ✅ Cosine annealing scheduler
+# Cosine annealing scheduler
 scheduler = CosineAnnealingLR(optimizer, T_max=EPOCHS, eta_min=1e-6)
 
 # ===== CREATE OUTPUT DIR =====
@@ -97,14 +97,14 @@ for epoch in range(EPOCHS):
         best_auroc = val_auroc
         patience_counter = 0
         torch.save(model.state_dict(), "results/models/densenet_best.pth")
-        print(f"✅ New best AUROC: {best_auroc:.4f}")
+        print(f"New best AUROC: {best_auroc:.4f}")
     else:
         patience_counter += 1
         if patience_counter % 2 == 0:
-            print(f"⚠️  No improvement ({patience_counter}/{EARLY_STOPPING_PATIENCE})")
+            print(f" No improvement ({patience_counter}/{EARLY_STOPPING_PATIENCE})")
 
     if patience_counter >= EARLY_STOPPING_PATIENCE:
-        print(f"\n🛑 Early stopping at epoch {epoch+1}")
+        print(f"\n Early stopping at epoch {epoch+1}")
         break
 
 # ===== FINAL EVALUATION =====
@@ -115,7 +115,7 @@ print(f"{'='*70}")
 model.load_state_dict(torch.load("results/models/densenet_best.pth"))
 test_auroc, test_acc = evaluate(model, test_loader, DEVICE)
 
-print(f"\n📊 Results:")
+print(f"\n Results:")
 print(f"  Best Val AUROC: {best_auroc:.4f}")
 print(f"  Test AUROC:     {test_auroc:.4f}")
 print(f"  Test Accuracy:  {test_acc:.4f}")
@@ -130,4 +130,4 @@ results = {
 with open("results/training_results.json", "w") as f:
     json.dump(results, f, indent=2)
 
-print("\n✅ Done!")
+print("\n Done!")
