@@ -7,8 +7,8 @@ class ChestXrayDataset(Dataset):
     def __init__(self, df, img_dir, transform=None):
         """
         Args:
-            df: DataFrame with 'dicom_id', 'Pneumonia' columns
-            img_dir: Base directory containing images
+            df: DataFrame with image metadata
+            img_dir: Base directory ('data/images_normalized' for preprocessed)
             transform: Image transforms
         """
         self.df = df
@@ -21,19 +21,28 @@ class ChestXrayDataset(Dataset):
     def __getitem__(self, idx):
         row = self.df.iloc[idx]
         
-        # Construct image path (adjust based on your directory structure)
+        subject_id = int(row['subject_id'])
+        study_id = int(row['study_id'])
         dicom_id = row['dicom_id']
-        subject_id = row['subject_id']
-        study_id = row['study_id']
+        prefix = str(subject_id)[:2]
         
-        img_path = f"{self.img_dir}/p{str(subject_id)[:2]}/p{subject_id}/s{study_id}/{dicom_id}.jpg"
+        img_path = os.path.join(
+            self.img_dir, 
+            f"p{prefix}", 
+            f"p{subject_id}", 
+            f"s{study_id}", 
+            f"{dicom_id}.jpg"
+        )
         
-        # Load image
-        image = Image.open(img_path).convert('RGB')
+        try:
+            image = Image.open(img_path).convert('RGB')
+        except FileNotFoundError:
+            print(f"⚠️  Image not found: {img_path}")
+            image = Image.new('RGB', (256, 256), color=(128, 128, 128))
         
         if self.transform:
             image = self.transform(image)
         
-        label = torch.tensor(row['Pneumonia'], dtype=torch.float32)
+        label = torch.tensor(float(row['Pneumonia']), dtype=torch.float32)
         
         return image, label
