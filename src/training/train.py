@@ -15,7 +15,10 @@ def train_one_epoch(model, loader, optimizer, criterion, device):
         loss = criterion(outputs, labels)
         
         loss.backward()
-        torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)  # ← Gradient clipping
+        
+        # Gradient clipping to prevent exploding gradients
+        torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+        
         optimizer.step()
 
         total_loss += loss.item()
