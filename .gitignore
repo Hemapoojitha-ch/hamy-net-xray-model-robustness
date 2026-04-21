@@ -1,2 +1,129 @@
 .DS_Store
 **/.DS_Store
+
+
+--------------------------
+#A
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ===== Virtual Environment =====
+venv/
+env/
+ENV/
+.venv
+.env
+
+# ===== IDEs =====
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.project
+.pydevproject
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# ===== Jupyter Notebook =====
+.ipynb_checkpoints
+*.ipynb
+
+# ===== Data (Generated) =====
+data/train_split.csv
+data/test_split.csv
+data/val_split.csv
+data/images_normalized/
+data/images/
+
+# ===== Model Outputs & Results =====
+results/
+*.pth
+*.pt
+*.pkl
+*.pickle
+checkpoints/
+models/saved_models/
+
+# ===== Logs & Metrics =====
+*.log
+logs/
+wandb/
+tensorboard/
+runs/
+
+# ===== OS Files =====
+.DS_Store
+Thumbs.db
+*.bak
+*.tmp
+
+# ===== Testing =====
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.hypothesis/
+
+# ===== Temporary Files =====
+*.tmp
+*.temp
+*.cache
+*.swp
+*.swo
+*~
+
+# ===== Project Specific =====
+# Keep original data, but ignore processed versions
+!data/mimic_ed_cxr_pneumonia_multimodal_cohort.csv
+!data/files/
+
+# Ignore all CSV splits (regenerate with split_data.py)
+data/*_split.csv
+
+# Ignore preprocessed/normalized images (regenerate with preprocess_images.py)
+data/images_normalized/
+
+# Ignore training outputs
+results/
+output/
+
+# ===== Mac =====
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# ===== Windows =====
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ===== Linux =====
+.directory
