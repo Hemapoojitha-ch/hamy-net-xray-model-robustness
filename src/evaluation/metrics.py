@@ -1,12 +1,12 @@
 import torch
 from sklearn.metrics import (
     roc_auc_score, accuracy_score, precision_score, recall_score, 
-    f1_score, confusion_matrix, roc_curve
+    f1_score, confusion_matrix
 )
 import numpy as np
 
-def evaluate(model, loader, device, verbose=False):
-    """Evaluate model on validation/test set"""
+def evaluate(model, loader, device, threshold=0.5, verbose=False):
+    """Evaluate model with custom threshold"""
     model.eval()
     
     all_preds = []
@@ -15,7 +15,6 @@ def evaluate(model, loader, device, verbose=False):
     with torch.no_grad():
         for images, labels in loader:
             images, labels = images.to(device), labels.to(device)
-            
             outputs = model(images)
             probs = torch.sigmoid(outputs).cpu().numpy()
             labels = labels.cpu().numpy()
@@ -26,8 +25,8 @@ def evaluate(model, loader, device, verbose=False):
     all_preds = np.array(all_preds)
     all_labels = np.array(all_labels)
     
-    # Binary predictions (threshold 0.5)
-    binary_preds = (all_preds > 0.5).astype(int)
+    # Binary predictions with custom threshold
+    binary_preds = (all_preds > threshold).astype(int)
     
     # Calculate metrics
     auroc = roc_auc_score(all_labels, all_preds)
@@ -41,6 +40,7 @@ def evaluate(model, loader, device, verbose=False):
     sensitivity = tp / (tp + fn) if (tp + fn) > 0 else 0
     
     if verbose:
+        print(f"  Threshold:  {threshold:.3f}")
         print(f"  AUROC:      {auroc:.4f}")
         print(f"  Accuracy:   {acc:.4f}")
         print(f"  Precision:  {precision:.4f}")
