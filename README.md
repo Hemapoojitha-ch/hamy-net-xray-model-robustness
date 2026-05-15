@@ -150,6 +150,37 @@ MIMIC-CXR radiology reports routinely contain the word "pneumonia" or related te
 ## Repository Structure
 
 ```
+hamy-net-xray-model-robustness/
+├── README.md
+├── requirements.txt
+├── .gitignore
+├── code/
+│   ├── vit_v2.ipynb
+│   ├── vit_v4_ensemble.ipynb
+│   ├── vit_v5_xrv.ipynb
+│   ├── vit_v6_text.ipynb
+│   └── vit_v7_robustness.ipynb
+├── data/
+│   ├── files/
+│   ├── reports/
+│   └── mimic_ed_cxr_pneumonia_multimodal_cohort.csv
+│   └── distorted_test_files/
+├── results/
+│   ├── distorted_test_eval/
+│   ├── metrics_summary/
+│   ├── *.png
+│   ├── *.csv
+│   └── *.npz
+├── src/
+│   ├── distortions/
+│       ├── create_distorted_dataset.py
+        ├── distortions.py
+├── check_images.py
+├── diagnose_data.py
+├── preprocess_images.py
+└── split_data.py
+```
+<!--
 final_proj/
 ├── README.md                              # this file
 ├── outcome_labels_reference.md            # label definitions
@@ -175,7 +206,8 @@ final_proj/
 └── results/                               # NOT committed to git (contains study_ids + probabilities)
     ├── vit_v{2,3,4,5,6}_*.{pt,csv,npz}    # checkpoints, predictions, OOF preds, embeddings
     └── *.png                              # ROC/PR curves, training curves
-```
+-->
+
 
 ## How to Run
 
@@ -190,7 +222,9 @@ final_proj/
    (Or manually download `mimic-cxr-reports.zip` from PhysioNet and extract to `data/reports/`.)
 4. **Build the cohort:** run `code/master_extract.ipynb` then `code/select_patients.ipynb`.
 5. **Train / evaluate models in order:** `vit_v2.ipynb` → `vit_v5_xrv.ipynb` → `vit_v6_text.ipynb`. Each notebook caches its embeddings and predictions under `results/` so later runs are fast.
-
+6. **Create distorted test data:** run `src/create_distorted_dataset.py` to generate distorted versions of the held-out test images, including Gaussian noise, motion blur, contrast reduction, and mixed distortions.
+7. **Run robustness evaluation:** execute `code/vit_v7_robustness.ipynb` to evaluate all trained models on the distorted test sets and generate robustness metrics, prediction CSVs, ROC curves, and comparison plots under `results/distorted_test_eval/`.
+   
 The pipeline assumes Apple Silicon (MPS) or CUDA. Falls back to CPU if neither is available (the v6 frozen-backbone design makes CPU runs tractable — text + image embedding extraction is the only slow step, and both are cached after the first run).
 
 ---
